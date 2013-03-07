@@ -2,6 +2,39 @@
 "* CreateDate : 2012-4-7
 "* Author : xiyang
 "******************************************************************
+"""""""""""""""""""""""""""""'"""""""""""""""""""""""""""""""""""""""""
+" vbundle 相关
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set nocompatible               " be iMproved
+filetype off                   " required!
+ 
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+ 
+" let Vundle manage Vundle
+" required! <br>Bundle 'gmarik/vundle'
+ 
+" original repos on github<br>Bundle 'mattn/zencoding-vim'
+Bundle 'drmingdrmer/xptemplate’
+ 
+" vim-scripts repos
+Bundle 'L9‘
+Bundle 'bufexplorer.zip'
+Bundle 'winmanager'
+Bundle 'taglist.vim'
+Bundle 'Mark'
+Bundle 'The-NERD-tree'
+Bundle 'closetag.vim'
+Bundle 'The-NERD-Commenter'
+Bundle 'matchit.zip'
+Bundle 'AutoComplPop'
+Bundle 'jsbeautify'
+Bundle 'YankRing.vim'
+ 
+filetype plugin indent on     " required! 
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 显示相关  
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
