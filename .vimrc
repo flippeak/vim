@@ -13,13 +13,14 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
  
 " let Vundle manage Vundle
-" required! <br>Bundle 'gmarik/vundle'
+" required! <br>
+Bundle 'gmarik/vundle'
  
 " original repos on github<br>Bundle 'mattn/zencoding-vim'
-Bundle 'drmingdrmer/xptemplate’
+Bundle 'drmingdrmer/xptemplate'
  
 " vim-scripts repos
-Bundle 'L9‘
+Bundle 'L9'
 Bundle 'bufexplorer.zip'
 Bundle 'winmanager'
 Bundle 'taglist.vim'
