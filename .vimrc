@@ -94,26 +94,6 @@ set matchtime=1
 " 光标移动到buffer的顶部和底部时保持3行距离
 set scrolloff=3
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-"解决中文问题
-"set encoding=utf-8
-"set fileencodings=ucs-bom,utf-8,chinese,cp936
-"set termencoding=chinese
-"if has("win32")
-"set fileencoding=chinese
-"else
-"set fileencoding=utf-8
-"endif
-"解决菜单乱码
-"source $VIMRUNTIME/delmenu.vim
-"source $VIMRUNTIME/menu.vim
-"解决consle输出乱码
-"language messages zh_CN.utf-8
-
-set encoding=chinese
-set termencoding=chinese
-set fileencoding=cp936 " 默认存成cp936(ANSI)以避免Perl解析中文出错 [10/05/06 thinkhy]
-set fileencodings=ucs-bom,utf-16,utf-8,cp936,gb18030,big5,euc-jp,sjis,euc-kr,ucs-2le,latin1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "键盘命令
@@ -195,10 +175,6 @@ set fo-=t   " don't automatically wrap text when typing
 set colorcolumn=80
 highlight ColorColumn ctermbg=233
 
-
-" easier formatting of paragraphs
-vmap Q gq
-nmap Q gqap
 
 
 " 映射grep "
@@ -295,19 +271,7 @@ nmap wm :WMToggle<cr>
 "在进入vim时自动打开winmanager
 
 let g:AutoOpenWinManager = 0
-"===================================================================================
-"svn 配置
-"===================================================================================
-" map svn key
-" map <silent> sd :VCSDiff<CR>
-map <silent> ,sd :call SvnDiffToggle()<CR> 
-" <CR>是回车，ZQ是退出小窗口的意思
-map <silent> ,su :VCSUpdate<CR>ZQ
-map <silent> ,sc :VCSCommit Modified...<CR>
-map <silent> ,sa :VCSAdd<CR>
-map <silent> ,si :VCSInfo<CR>
-map <silent> ,sl :VCSLog<CR>
-map <silent> ,sn :VCSAnnotate<CR>
+
 
 """""""""""""""""""""""""""""""""""
 " NerdTree plugin  10/04/11
@@ -317,81 +281,9 @@ let NERDTreeWinPos = "left" "where NERD tree window is placed on the screen
 "let NERDTreeWinSize = 31 "size of the NERD tree
 nmap <F7> <ESC>:NERDTreeToggle<RETURN>" Open and close the NERD_tree.vim separately
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" txt2tag 设置
-" 设置按<F12>时可以调用txt2tag的命令转换文档 
-" python.exe D:\Python25\soft\txt2tags-2.6\txt2tags -t html F:\360云同步\开发文档\开发文档\上海财经组卷添加筛选属性.txt
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""'"""
-map <F12> <ESC>:!python.exe D:\Python27\soft\txt2tags-2.6\txt2tags -t html --toc %" <CR>
-imap <F12> <ESC>:!python.exe D:\Python27\soft\txt2tags-2.6\txt2tags -t html --toc %" <CR>
+
 "=======================================================
 " python 相关                                           "
 "======================================================="
-"pydiction 1.2 python auto complete
-"filetype plugin on
-"let g:pydiction_location = 'D:/Program Files/Vim/vimfiles/tools/pydiction/complete-dict'
-"defalut g:pydiction_menu_height == 15
-"let g:pydiction_menu_height = 20 
-
-" Setup Pathogen to manage your plugins
-" mkdir -p ~/.vim/autoload ~/.vim/bundle
-" curl -so ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/HEAD/autoload/pathogen.vim
-" Now you can install any plugin into a .vim/bundle/plugin-name/ folder
-call pathogen#infect()
 
 
-" ============================================================================
-" Python IDE Setup
-" ============================================================================
-
-
-" Settings for vim-powerline
-" cd ~/.vim/bundle
-" git clone git://github.com/Lokaltog/vim-powerline.git
-set laststatus=2
-
-
-" Settings for ctrlp
-" cd ~/.vim/bundle
-" git clone https://github.com/kien/ctrlp.vim.git
-let g:ctrlp_max_height = 30
-set wildignore+=*.pyc
-set wildignore+=*_build/*
-set wildignore+=*/coverage/*
-let g:ctrlp_map = '<C-S-R>'
-
-" Settings for python-mode
-" cd ~/.vim/bundle
-" git clone https://github.com/klen/python-mode
-map <Leader>g :call RopeGotoDefinition()<CR>
-let ropevim_enable_shortcuts = 1
-let g:pymode_rope_goto_def_newwin = "vnew"
-let g:pymode_rope_extended_complete = 1
-let g:pymode_breakpoint = 0
-let g:pymode_syntax = 1
-let g:pymode_syntax_builtin_objs = 0
-let g:pymode_syntax_builtin_funcs = 0
-map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
-
-" Better navigating through omnicomplete option list
-" See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
-set completeopt=longest,menuone
-function! OmniPopup(action)
-    if pumvisible()
-        if a:action == 'j'
-            return "\<C-N>"
-        elseif a:action == 'k'
-            return "\<C-P>"
-        endif
-    endif
-    return a:action
-endfunction
-
-inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
-
-
-" Python folding
-" mkdir -p ~/.vim/ftplugin
-" wget -O ~/.vim/ftplugin/python_editing.vim http://www.vim.org/scripts/download_script.php?src_id=5492
-set nofoldenable
