@@ -209,7 +209,26 @@ set fo-=t   " don't automatically wrap text when typing
 set colorcolumn=80
 highlight ColorColumn ctermbg=233
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+"解决中文问题
+"set encoding=utf-8
+"set fileencodings=ucs-bom,utf-8,chinese,cp936
+"set termencoding=chinese
+"if has("win32")
+"set fileencoding=chinese
+"else
+"set fileencoding=utf-8
+"endif
+"解决菜单乱码
+"source $VIMRUNTIME/delmenu.vim
+"source $VIMRUNTIME/menu.vim
+"解决consle输出乱码
+"language messages zh_CN.utf-8
 
+set encoding=chinese
+set termencoding=chinese
+set fileencoding=cp936 " 默认存成cp936(ANSI)以避免Perl解析中文出错 [10/05/06 thinkhy]
+set fileencodings=ucs-bom,utf-16,utf-8,cp936,gb18030,big5,euc-jp,sjis,euc-kr,ucs-2le,latin1
 
 " 映射grep "
 nnoremap <silent> <F3> :Grep<CR>
