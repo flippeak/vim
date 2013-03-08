@@ -176,8 +176,8 @@ map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
-map <leader>n :tabnex<CR>
-map <leader>p :tabprev<CR>
+map <leader>tl :tabnex<CR>
+map <leader>th :tabprev<CR>
 nmap <C-T>  :tabnew<CR>
 
 
