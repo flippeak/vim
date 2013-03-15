@@ -16,7 +16,8 @@ call vundle#rc()
 " required! <br>
 Bundle 'gmarik/vundle'
  
-" original repos on github<br>Bundle 'mattn/zencoding-vim'
+" original repos on github<br>
+Bundle 'mattn/zencoding-vim'
 Bundle 'drmingdrmer/xptemplate'
  
 " vim-scripts repos
