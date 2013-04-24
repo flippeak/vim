@@ -164,8 +164,8 @@ func! CompileRunProg()
 endfunc
 
 " 使更新 _vimrc 更容易
-:nmap ,s :source $VIM/_vimrc
-:nmap ,e :e $VIM/_vimrc
+:nmap ,s :source ~/.vimrc
+:nmap ,e :e ~/.vimrc
 " 译释：在normal模式下，先后按下 ,s 两个键执行_vimrc，而 ,v 则是编辑_vimrc
 
 "==============================================================================
