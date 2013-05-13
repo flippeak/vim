@@ -18,12 +18,16 @@ Bundle 'gmarik/vundle'
  
 " original repos on github<br>
 Bundle 'mattn/zencoding-vim'
-Bundle 'drmingdrmer/xptemplate'
+"Bundle 'drmingdrmer/xptemplate'
  
 " vim-scripts repos
-Bundle 'L9'
+"Bundle 'FuzzyFinder'
+"Bundle 'L9'
 Bundle 'bufexplorer.zip'
+"Bundle 'minibufexpl.vim'
 Bundle 'winmanager'
+Bundle 'genutils'
+"Bundle 'lookupfile'
 Bundle 'taglist.vim'
 Bundle 'Mark'
 Bundle 'The-NERD-tree'
@@ -32,8 +36,25 @@ Bundle 'The-NERD-Commenter'
 Bundle 'matchit.zip'
 Bundle 'AutoComplPop'
 Bundle 'jsbeautify'
-Bundle 'YankRing.vim'
- 
+"Bundle 'YankRing.vim'
+Bundle 'lepture/vim-jinja'
+"相较于Command-T等查找文件的插件，ctrlp.vim最大的好处在于没有依赖，干净利落
+Bundle 'kien/ctrlp.vim'
+
+"在输入()，""等需要配对的符号时，自动帮你补全剩余半个
+Bundle 'AutoClose'
+
+"用全新的方式在文档中高效的移动光标，革命性的突破
+Bundle 'EasyMotion'
+
+"自动识别文件编码；
+Bundle 'FencView.vim'
+
+"迄今位置最好的自动VIM自动补全插件了吧
+"Vundle的这个写法，是直接取该插件在Github上的repo
+"Bundle 'Valloric/YouCompleteMe'
+
+
 filetype plugin indent on     " required! 
 
 
@@ -42,7 +63,8 @@ filetype plugin indent on     " required!
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set go=             " 不要图形按钮  
 
-set guifont=Courier_New:h10:cANSI   " 设置字体  
+set guifont=Courier_New:h12:cANSI   " 设置字体  
+set wrap
 
 syntax enable
 syntax on           " 语法高亮  
@@ -60,7 +82,7 @@ set cmdheight=2 " 命令行（在状态行下）的高度，默认为1，这里�
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}   "状态行显示的内容  
 set laststatus=2   " 启动显示状态行(1),总是显示状态行(2)  
 "set foldenable      " 允许折叠  
-set foldmethod=manual   " 手动折叠  
+set foldmethod=manual " 手动折叠  
 
 set nocompatible  "去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限  
 
@@ -177,7 +199,7 @@ map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
-map <leader>tl :tabnex<CR>
+map <leader>tk :tabnex<CR>
 map <leader>th :tabprev<CR>
 nmap <C-T>  :tabnew<CR>
 
@@ -210,26 +232,7 @@ set fo-=t   " don't automatically wrap text when typing
 set colorcolumn=80
 highlight ColorColumn ctermbg=233
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-"解决中文问题
-"set encoding=utf-8
-"set fileencodings=ucs-bom,utf-8,chinese,cp936
-"set termencoding=chinese
-"if has("win32")
-"set fileencoding=chinese
-"else
-"set fileencoding=utf-8
-"endif
-"解决菜单乱码
-"source $VIMRUNTIME/delmenu.vim
-"source $VIMRUNTIME/menu.vim
-"解决consle输出乱码
-"language messages zh_CN.utf-8
 
-set encoding=chinese
-set termencoding=chinese
-set fileencoding=cp936 " 默认存成cp936(ANSI)以避免Perl解析中文出错 [10/05/06 thinkhy]
-set fileencodings=ucs-bom,utf-16,utf-8,cp936,gb18030,big5,euc-jp,sjis,euc-kr,ucs-2le,latin1
 
 " 映射grep "
 nnoremap <silent> <F3> :Grep<CR>
@@ -242,15 +245,22 @@ autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java,*.py,*.pl exec ":call SetTitle()"
 func SetTitle() 
 	"如果文件类型为.py文件 
 	if &filetype == 'python' 
-		call setline(1,"#########################################################################") 
-		call append(line("."), "# File Name: ".expand("%")) 
-		call append(line(".")+1, "# Author: xiyang") 
-		call append(line(".")+2, "# mail: sdlgxxy@gmail.com") 
-		call append(line(".")+3, "# Created Time: ".strftime("%c")) 
-		call append(line(".")+4, "########################################################################") 
-		call append(line(".")+5,"#!/usr/bin/env python")
-		call append(line(".")+5,"# -*- coding: UTF-8 -*-")
-	else 
+		call setline(1,"#!/usr/bin/env python")
+		call append(line("."),"# -*- coding: UTF-8 -*-")
+		call append(line(".")+1,"#########################################################################") 
+		call append(line(".")+2, "# File Name: ".expand("%")) 
+		call append(line(".")+3, "# Author: xiyang") 
+		call append(line(".")+4, "# mail: sdlgxxy@gmail.com") 
+		call append(line(".")+5, "# Created Time: ".strftime("%c")) 
+		call append(line(".")+6, "########################################################################") 
+	elseif &filetype == 'md'
+		call setline("1","#")
+		call append(line("."),"date:")
+		call append(line(".")+1,"category:")
+		call append(line(".")+2,"tags:")
+		call append(line(".")+3,"")
+		call append(line(".")+4,"---------------------")
+	else
 		call setline(1, "/*************************************************************************") 
 		call append(line("."), "    > File Name: ".expand("%")) 
 		call append(line(".")+1, "    > Author: xiyang") 
@@ -272,14 +282,14 @@ let Tlist_Compart_Format = 1    " 压缩方式
 let Tlist_Exist_OnlyWindow = 1  " 如果只有一个buffer，kill窗口也kill掉buffer  
 let Tlist_File_Fold_Auto_Close = 0  " 设置是否默认折叠代码
 let Tlist_Enable_Fold_Column = 0    " 不要显示折叠树  
-autocmd FileType python set tags+=D:\Python25\workspace
+autocmd FileType python set tags+=/workspace
 "autocmd FileType java set tags+=D:\tools\java\tags  
 "autocmd FileType h,cpp,cc,c set tags+=D:\tools\cpp\tags  
 "let Tlist_Show_One_File=1            "不同时显示多个文件的tag，只显示当前文件的
 "设置tags  
 "set tags = tags; 
-"set autochdir 
-autocmd BufNewFile,BufRead D:/Python25/workspae/* set tags+=D:/Python25/workspae/tags
+set autochdir 
+autocmd BufNewFile,BufRead ~/workspace/* set tags+=~/workspace/tags
 "默认打开Taglist 
 let Tlist_Auto_Open=0
 let Tlist_Ctags_Cmd = 'ctags' 
@@ -289,13 +299,20 @@ let Tlist_Show_One_File = 1 "不同时显示多个文件的tag，只显示当前
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""
-" minibufexpl插件的一般设置 
+" bufexplorer.zip插件的一般设置 
 """""""""""""""""""""""""""""""
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
+nmap <silent> <F12> :BufExplorer<CR>
+nmap <silent> <m-F12> :BufExplorerHorizontalSplit<CR>
+nmap <silent> <c-F12> :BufExplorerVerticalSplit<CR>
+nmap <silent> <c-p> :bp <CR>
+nmap <silent> <c-n> :bn <CR>
 
-let g:miniBufExplModSelTarget = 1   
+let g:bufExplorerSplitBelow=1
+let g:bufExplorerHorzSize=5
+let g:bufExplorerDefaultHelp=0
+let g:bufExplorerSortBy='mru'
+let g:bufExplorerSplitVertSize=40
+
 "==========================================
 " lookupfile  
 "==========================================
@@ -306,7 +323,7 @@ let g:LookupFile_AlwaysAcceptFirst = 1          "回车打开第一个匹配项�
 let g:LookupFile_AllowNewFiles = 0              "不允许创建不存在的文件
 let g:LookupFile_SortMethod = ""                "关闭对搜索结果的字母排序
 "设置tag文件的名字
-autocmd BufNewFile,BufRead  D:/Python25/workspae/* let g:LookupFile_TagExpr ='"D:/Python25/workspae/filenametags"'
+autocmd BufNewFile,BufRead  ~/workspace/* let g:LookupFile_TagExpr ='"~/workspace/filenametags"'
 
 let g:LookupFile_TagExpr='"filenametags"'
 
@@ -319,8 +336,8 @@ nmap <silent> <leader>lw :LUWalk<cr>
 "==========================================
 " winManager
 "==========================================
-let g:winManagerWindowLayout='FileExplorer'
-"let g:winManagerWindowLayout='FileExplorer|TagList'
+"let g:winManagerWindowLayout='FileExplorer'
+let g:winManagerWindowLayout='FileExplorer|TagList'
 nmap wm :WMToggle<cr>
 "在进入vim时自动打开winmanager
 
@@ -339,5 +356,33 @@ nmap <F7> <ESC>:NERDTreeToggle<RETURN>" Open and close the NERD_tree.vim separat
 "=======================================================
 " python 相关                                           "
 "======================================================="
+
+
+
+
+
+"python补全
+let g:pydiction_location = '~/.vim/after/complete-dict'
+let g:pydiction_menu_height = 20
+let Tlist_Ctags_Cmd='/usr/bin/ctags'
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
+
+
+
+
+set iskeyword+=.
+set fileencodings=utf-8
+set termencoding=utf-8
+set encoding=utf8
+set fileencoding=utf8
+set fileencodings=utf8,ucs-bom,gbk,cp936,gb2312,gb18030
+let &termencoding=&encoding
+
+
+
+autocmd FileType python set omnifunc=pythoncomplete#Complete
 
 
