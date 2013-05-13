@@ -1,5 +1,5 @@
 # 我的 vim 配置
-------
+
 > 我的vim配置文件，使用[vundle](https://github.com/gmarik/vundle)管理插件。
 
 ## 使用方法
